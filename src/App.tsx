@@ -1,26 +1,43 @@
-import MyBtn from './MyBtn';
 import "./App.css"
-import { useState } from 'react';
+import { connect, disconnect } from './chat';
+import { FC, useState, useEffect } from 'react';
 
-const products = [
-  { title: 'Cabbage', id: 1 },
-  { title: 'Garlic', id: 2 },
-  { title: 'Apple', id: 3 },
-];
+const serverUrl = 'https://localhost:1234';
 
-function App() {
+function ChatRoom({ roomId } : {roomId: string}) {
+  return (<h1>Welcome to the {roomId} room!</h1>);
+}
 
-  const [count, setCount] = useState(0);
+const App: FC = () => {
 
-    function btnClickHandler(){
-        alert(count);
-        setCount(count + 1)
-      }
+  const [roomId, setRoomId] = useState<string>('general');
+  const [show, setShow] = useState<boolean>(false);
+
+  useEffect(() => {
+    connect(serverUrl, roomId);
+    setShow(true);
+    return disconnect(serverUrl, roomId);
+  }, [roomId]);
 
   return (
-  <>
-    { products.map(x => <MyBtn key={x.id} count={count} btnClickHandler={btnClickHandler}/>)}
-  </>
+    <>
+      <label>
+        Choose the chat room:{' '}
+        <select
+          value={roomId}
+          onChange={e => setRoomId(e.target.value)}
+        >
+          <option value="general">general</option>
+          <option value="travel">travel</option>
+          <option value="music">music</option>
+        </select>
+      </label>
+      <button onClick={() => setShow(!show)}>
+        {show ? 'Close chat' : 'Open chat'}
+      </button>
+      {show && <hr />}
+      {show && <ChatRoom roomId={roomId} />}
+    </>
   );
 }
 
