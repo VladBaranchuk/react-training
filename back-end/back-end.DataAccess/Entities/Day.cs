@@ -14,7 +14,7 @@
         public bool DoMorningExamples { get; set; }
         public Guid ProfileId { get; set; }
 
-        public required ICollection<Guid> Activities { get; set; }
-        public required ICollection<Guid> Dishes { get; set; }
+        public required ICollection<Activity> Activities { get; set; }
+        public required ICollection<Dish> Dishes { get; set; }
     }
 }

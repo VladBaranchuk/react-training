@@ -9,6 +9,6 @@
         public required double Carbohydrate { get; set; }
         public required double Weight { get; set; }
 
-        public required ICollection<Guid> Days { get; set; }
+        public required ICollection<Day> Days { get; set; }
     }
 }
