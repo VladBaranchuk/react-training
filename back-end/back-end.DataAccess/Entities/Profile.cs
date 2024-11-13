@@ -8,6 +8,6 @@
         public required double Weight { get; set; }
         public required DateTime StartDay { get; set; }
 
-        public required ICollection<Day> Days { get; set; }
+        public ICollection<Day> Days { get; set; } = new List<Day>();
     }
 }
