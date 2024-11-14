@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace back_end.Controllers
 {
     [ApiController]
-    [Route("api/profile")]
+    [Route("api/profiles")]
     public class ProfileController(
         ProfileProvider _profileProvider,
         ProfileRepository _profileRepository,

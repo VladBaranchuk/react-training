@@ -1,6 +1,7 @@
 import "./App.css"
 import { connect, disconnect } from './chat';
 import { FC, useState, useEffect } from 'react';
+import Profiles from "./pages/Profiles";
 
 const serverUrl = 'https://localhost:1234';
 
@@ -21,7 +22,7 @@ const App: FC = () => {
 
   return (
     <>
-      <label>
+      {/* <label>
         Choose the chat room:{' '}
         <select
           value={roomId}
@@ -36,7 +37,8 @@ const App: FC = () => {
         {show ? 'Close chat' : 'Open chat'}
       </button>
       {show && <hr />}
-      {show && <ChatRoom roomId={roomId} />}
+      {show && <ChatRoom roomId={roomId} />} */}
+      <Profiles />
     </>
   );
 }

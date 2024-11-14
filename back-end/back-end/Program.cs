@@ -19,6 +19,16 @@ namespace back_end
             builder.Services.AddScoped<ProfileProvider>();
             builder.Services.AddScoped<ProfileRepository>();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("Development", builder =>
+                    builder
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .SetIsOriginAllowed(origin => true)
+                    .AllowCredentials());
+            });
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -35,6 +45,7 @@ namespace back_end
 
             app.UseHttpsRedirection();
 
+            app.UseCors("Development");
             app.UseAuthorization();
 
 
