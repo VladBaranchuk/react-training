@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { Profile } from "../api/profileController/Models";
 import { getProfiles } from "../api/profileController/ProfileController";
+import ProfileItem from "../components/ProfleItem";
 
 const Profiles: FC = () => {
 
@@ -12,9 +13,12 @@ const Profiles: FC = () => {
     }, []) 
 
     return (
-      <pre>
-        {JSON.stringify(profiles)}
-      </pre>
+      <>
+      {profiles.map((item) => {
+        return <ProfileItem key={item.id} profile={item} />
+      })}
+    </>
+      
     );
   }
   
