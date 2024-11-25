@@ -19,7 +19,15 @@ const ProfileItem: FC<IProfileItem> = ({profile}) => {
 
     return (
         <>
-            <Button imageUrl={icon}>{profile.firstName + " "+ profile.lastName}</Button>
+            <Button 
+                imageUrl={icon}
+                style={{
+                    width: "250px",
+                    justifyContent: "left",
+                    marginBottom: "10px",
+                    fontWeight: "bold"
+                }}
+                >{profile.firstName + " "+ profile.lastName}</Button>
         </>
     );
 } 
