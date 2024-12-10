@@ -1,19 +1,28 @@
 import { FC, useEffect, useState } from "react";
 import { Profile } from "../api/profileController/Models";
-import { getProfiles } from "../api/profileController/ProfileController";
 import ProfileItem from "../components/ProfleItem";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "redux";
+import store, { DispatchAction } from "../store";
+import { getProfiles } from "../api/profileController/ProfileController";
 import { Button } from "@progress/kendo-react-buttons";
 import { plusIcon } from '@progress/kendo-svg-icons';
 import { SvgIcon } from "@progress/kendo-react-common";
 
 const Profiles: FC = () => {
+    const dispatch = useDispatch<Dispatch<DispatchAction>>();
+    const [profiles, setProfiles] = useState<Profile[] | undefined>(undefined);
 
-    const [profiles, setProfiles] = useState<Profile[]>([]);
-
-    useEffect( () => {
-        getProfiles()
-            .then(x => setProfiles(x ?? []));
-    }, []) 
+    useEffect(() => {
+      getProfiles()
+      .then(x => {
+        dispatch({
+          type: "action/setProfiles",
+          payload: x
+        })
+        setProfiles(store.getState().profiles);
+      });      
+    }) 
 
     return (
       <div style={{
@@ -36,7 +45,7 @@ const Profiles: FC = () => {
         backgroundColor: "#ffffff1a",
         backdropFilter: "blur(15px)"
       }}>
-          {profiles.map((item) => {
+          {profiles?.map((item) => {
             return <ProfileItem key={item.id} profile={item} />
           })}
               <Button 
