@@ -1,10 +1,11 @@
 import { Button } from "@progress/kendo-react-buttons";
 import { toSvg } from "jdenticon";
 import { FC } from "react";
-import { Profile } from "../api/profileController/Models";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/reducer";
 
 interface IProfileItem {
-    profile: Profile
+    profileId: string
 }
 
 const generateImage = (id: string, size: number): string => {
@@ -13,10 +14,10 @@ const generateImage = (id: string, size: number): string => {
     return URL.createObjectURL(blob);
 }
 
-const ProfileItem: FC<IProfileItem> = ({profile}) => {
-
-    let icon = generateImage(profile.id, 50);
-
+const ProfileItem: FC<IProfileItem> = ({profileId}) => {
+    const icon = generateImage(profileId, 50);
+    const profile = useSelector((state: RootState) => state.profiles.find(y => y.id === profileId));
+    
     return (
         <>
             <Button 
@@ -27,7 +28,7 @@ const ProfileItem: FC<IProfileItem> = ({profile}) => {
                     marginBottom: "10px",
                     fontWeight: "bold"
                 }}
-                >{profile.firstName + " "+ profile.lastName}</Button>
+                >{profile?.firstName + " "+ profile?.lastName}</Button>
         </>
     );
 } 
