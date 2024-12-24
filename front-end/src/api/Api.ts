@@ -1,12 +1,23 @@
-export const request = async <TResponse>(url: string, config: RequestInit): Promise<TResponse | undefined> => {
+type ValidationError = {
+    propertyName: string,
+    errorMessage: string
+}
+
+type ErrorMessage = {
+    errorMessage: string,
+    validationErrors?: ValidationError[]
+}
+
+export const request = async <TResponse>(url: string, config: RequestInit): Promise<TResponse | null> => {
     const response = await fetch(url, config);
-    const result = await response.json()
+    const result = await response.json();
     
-    // if(response.status >= 400) {
-    //     let error = result as ErrorMessage
-    //     alert(error.ErrorMessage)
-    //     return undefined
-    // }
+    if(response.status >= 400) {
+        let error = result as ErrorMessage;
+        console.log(error);
+        alert(error.errorMessage);
+        return null;
+    }
 
     return result as TResponse; 
 }

@@ -48,7 +48,7 @@ namespace back_end
             app.UseCors("Development");
             app.UseAuthorization();
 
-
+            app.UseMiddleware<ErrorHandlerMiddleware>();
             app.MapControllers();
 
             app.Run();

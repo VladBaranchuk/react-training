@@ -9,10 +9,12 @@ export interface DispatchAction {
 }
 
 export const fetchProfiles = (dispatch: Dispatch<DispatchAction>, getState: () => RootState) => {
-    getProfiles().then(data => {
-        dispatch({type: "action/setProfiles", payload: data});
-        
-        console.log('Loaded: ', data);
+    getProfiles()
+    .then(data => {
+        if (data !== null) {
+            dispatch({type: "action/setProfiles", payload: data});
+            console.log('Loaded: ', data);
+        }
     })
 }
 
@@ -23,6 +25,8 @@ const profileReducer = (state: Profile[] = [], action: any): Profile[] => {
     switch (action.type) {
         case "action/setProfiles":
             return action.payload;
+        case "action/addProfile":
+            return [...state, action.payload];
         default:
             return state;
     }

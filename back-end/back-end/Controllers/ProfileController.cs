@@ -30,7 +30,7 @@ namespace back_end.Controllers
             _profileRepository.CreateProfile(profile);
             await _dbContext.SaveChangesAsync(token);
 
-            return Created();
+            return Created($"api/profiles/{profile.Id}", profile);
         }
 
         [HttpGet("{id}")]
