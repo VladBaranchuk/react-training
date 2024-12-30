@@ -2,34 +2,30 @@ import { Dispatch } from "react";
 import { Profile } from "../api/profileController/Models";
 import { getProfiles } from "../api/profileController/ProfileController";
 import { RootState } from "./reducer";
-
-export interface DispatchAction {
-    type: string,
-    payload?: any
-}
+import { DispatchAction } from "./localDispatcher";
 
 export const fetchProfiles = (dispatch: Dispatch<DispatchAction>, getState: () => RootState) => {
     getProfiles()
     .then(data => {
         if (data !== null) {
-            dispatch({type: "action/setProfiles", payload: data});
+            dispatch({type: "profiles/setProfiles", payload: data});
             console.log('Loaded: ', data);
         }
     })
 }
 
-const profileReducer = (state: Profile[] = [], action: any): Profile[] => {
+const profilesReducer = (state: Profile[] = [], action: any): Profile[] => {
     if (typeof action !== 'object')
         return state;
 
     switch (action.type) {
-        case "action/setProfiles":
+        case "profiles/setProfiles":
             return action.payload;
-        case "action/addProfile":
+        case "profiles/addProfile":
             return [...state, action.payload];
         default:
             return state;
     }
 };
 
-export default profileReducer;
+export default profilesReducer;

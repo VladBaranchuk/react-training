@@ -1,6 +1,6 @@
 import { Dispatch, Middleware } from "redux";
-import { DispatchAction } from "../store/profilesSlice";
 import { RootState } from "../store/reducer";
+import { DispatchAction } from "../store/localDispatcher";
 
 export const useThunk: Middleware<Dispatch<DispatchAction>, RootState> = store => next => action => {
     if (typeof action === 'function') {

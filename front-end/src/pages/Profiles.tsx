@@ -6,7 +6,15 @@ import { plusIcon } from '@progress/kendo-svg-icons';
 import { SvgIcon } from "@progress/kendo-react-common";
 import { RootState } from "../store/reducer";
 import CreateProfileDialog from "../components/CreateProfileDialog";
-import { createProfile, profilesContainer, profilesContainerInternal } from "../styles";
+import { createProfile, backgroundContainer, profilesContainer } from "../styles";
+import { Link } from "react-router-dom";
+
+const getProfileItem = (id: string) => {
+  return (
+    <Link to={`/Profile/${id}`}>
+      <ProfileItem key={id} profileId={id} />
+    </Link>);
+}
 
 const Profiles: FC = () => {
   let [visible, setVisible] = useState<boolean>(false);
@@ -16,16 +24,14 @@ const Profiles: FC = () => {
   return (
     <>
       {visible && <CreateProfileDialog visible={visible} setVisible={setVisible}/>}
-      <div style={profilesContainer}>
-        <div style={profilesContainerInternal}>
-          {profileIds && profileIds.map((item) => {
-            return <ProfileItem key={item} profileId={item} />
-          })}
-              <Button 
-                onClick={() => setVisible(!visible)}
-                style={createProfile}>
-                  <SvgIcon icon={plusIcon} size="large"/>
-              </Button>
+      <div style={backgroundContainer}>
+        <div style={profilesContainer}>
+          {profileIds && profileIds.map(getProfileItem)}
+          <Button 
+            onClick={() => setVisible(!visible)}
+            style={createProfile}>
+              <SvgIcon icon={plusIcon} size="large"/>
+          </Button>
         </div>
       </div> 
     </>

@@ -23,13 +23,11 @@ const CreateProfileDialog: React.FC<ICreateProfiledialog> = ({visible, setVisibl
         createProfile(dataItem as CreateProfile)
         .then(data => {
             if (data !== null) {
-                dispatch({type: "action/addProfile", payload: data});
+                dispatch({type: "profiles/addProfile", payload: data});
                 console.log('Loaded: ', data);
             }
         });
     }
-
-    
 
     return (
     <Dialog title={'Create a new profile'} onClose={toggleDialog}>
