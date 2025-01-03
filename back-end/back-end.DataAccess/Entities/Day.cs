@@ -3,7 +3,7 @@
     public class Day
     {
         public Guid Id { get; set; }
-        public required double EarlyWeight { get; set; }
+        public required double MorningWeight { get; set; }
         public required DateTime StartSleep { get; set; }
         public required DateTime FinishSleep { get; set; }
         public required FatigueType Fatigue { get; set; }
@@ -12,6 +12,7 @@
         public bool DoDrink { get; set; }
         public bool DoSmoke { get; set; }
         public bool DoMorningExamples { get; set; }
+        public DateTime Date { get; set; }
         public Guid ProfileId { get; set; }
 
         public required ICollection<Activity> Activities { get; set; }

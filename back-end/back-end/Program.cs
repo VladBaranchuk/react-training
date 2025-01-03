@@ -18,6 +18,7 @@ namespace back_end
             });
             builder.Services.AddScoped<ProfileProvider>();
             builder.Services.AddScoped<ProfileRepository>();
+            builder.Services.AddScoped<DayProvider>();
 
             builder.Services.AddCors(options =>
             {
