@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-store.dispatch(fetchProfiles);
+store.dispatch(fetchProfiles());
 
 root.render(
   <React.StrictMode>

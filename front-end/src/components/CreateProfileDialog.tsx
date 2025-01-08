@@ -6,6 +6,7 @@ import { Button } from '@progress/kendo-react-buttons';
 import { createProfile } from '../api/profileController/ProfileController';
 import { CreateProfile } from '../api/profileController/Models';
 import { useDispatch } from 'react-redux';
+import { ProfilesActions } from '../store/actionFabrics';
 
 interface ICreateProfiledialog {
     visible: boolean,
@@ -20,13 +21,15 @@ const CreateProfileDialog: React.FC<ICreateProfiledialog> = ({visible, setVisibl
         setVisible(!visible);
 
     const handleSubmit = (dataItem: { [name: string]: any }) => {
-        createProfile(dataItem as CreateProfile)
-        .then(data => {
-            if (data !== null) {
-                dispatch({type: "profiles/addProfile", payload: data});
-                console.log('Loaded: ', data);
+        async function fetchProfile() {
+            let profile = createProfile(dataItem as CreateProfile);
+
+            if (profile !== null) {
+                dispatch(ProfilesActions.addProfile(profile));
+                console.log('Loaded: ', profile);
             }
-        });
+        };
+        fetchProfile();
     }
 
     return (

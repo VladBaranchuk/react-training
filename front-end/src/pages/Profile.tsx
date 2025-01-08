@@ -2,7 +2,9 @@ import { FC, useEffect } from "react";
 import { backgroundContainer, profileContainer } from "../styles";
 import { useParams } from "react-router-dom";
 import { getProfile } from "../api/profileController/ProfileController";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/reducer";
+import { ProfileActions } from "../store/actionFabrics";
 
 const Profile: FC = () => {
 
@@ -10,23 +12,30 @@ const Profile: FC = () => {
   var dispatch = useDispatch();
 
   useEffect(() => {
-    getProfile(id!)
-      .then(data => {
-          if (data !== null) {
-              dispatch({type: "profile/setProfile", payload: data});
-              console.log('Loaded: ', data);
-          }
-      });
+    async function fetchProfile() {
+      let profile = getProfile(id!);
+
+      if (profile !== null) {
+          dispatch(ProfileActions.setProfile(profile));
+          console.log('Loaded: ', profile);
+      }
+    };
+    fetchProfile();
+    
     return () => {
-      dispatch({type: "profile/unmountProfile"});
+      dispatch(ProfileActions.unmountProfile());
     }
   });
+
+  const profile = useSelector((x: RootState) => x.profiles?.find(y => y.id === id));
 
   return (
     <>
      <div style={backgroundContainer}>
       <div style={profileContainer}>
-
+        <div>
+        {profile?.firstName} {profile?.lastName}
+        </div>
       </div>
      </div>
     </>

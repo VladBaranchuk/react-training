@@ -1,18 +1,18 @@
 import { Dispatch } from "react";
 import { Profile } from "../api/profileController/Models";
 import { getProfiles } from "../api/profileController/ProfileController";
-import { RootState } from "./reducer";
 import { DispatchAction } from "./localDispatcher";
+import { ProfilesActions } from "./actionFabrics";
 
-export const fetchProfiles = (dispatch: Dispatch<DispatchAction>, getState: () => RootState) => {
-    getProfiles()
-    .then(data => {
-        if (data !== null) {
-            dispatch({type: "profiles/setProfiles", payload: data});
-            console.log('Loaded: ', data);
+export const fetchProfiles = () => 
+    async (dispatch: Dispatch<DispatchAction>) => {
+        let profiles = await getProfiles();
+
+        if (profiles !== null) {
+            dispatch(ProfilesActions.setProfiles(profiles));
+            console.log('Loaded: ', profiles);
         }
-    })
-}
+    }
 
 const profilesReducer = (state: Profile[] = [], action: any): Profile[] => {
     if (typeof action !== 'object')
