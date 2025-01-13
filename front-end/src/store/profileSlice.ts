@@ -9,14 +9,16 @@ let defaultState: Profile = {
     days: []
 }
 
+export const domain = "profile";
+
 const profileReducer = (state: Profile = defaultState, action: any): Profile => {
     if (typeof action !== 'object')
         return state;
 
     switch (action.type) {
-        case "profile/setProfile":
+        case `${domain}/setProfile`:
             return action.payload;
-        case "profile/unmountProfile":
+        case `${domain}/clear`:
             return defaultState;
         default:
             return state;

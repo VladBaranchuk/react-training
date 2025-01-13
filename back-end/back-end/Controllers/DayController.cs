@@ -1,4 +1,5 @@
-﻿using back_end.DataAccess.Entities;
+﻿using back_end.DataAccess;
+using back_end.DataAccess.Entities;
 using back_end.DataAccess.Providers;
 using back_end.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -7,20 +8,25 @@ using Microsoft.EntityFrameworkCore;
 namespace back_end.Controllers
 {
     [ApiController]
-    [Route("api/days")]
+    [Route("api/profile/{profileId}/days")]
     public class DayController : ControllerBase
     {
         private readonly DayProvider _dayProvider;
         private readonly DayRepository _dayRepository;
+        private readonly DatabaseContext _dbContext;
 
-        public DayController(DayProvider dayProvider, DayRepository dayRepository)
+        public DayController(
+            DayProvider dayProvider,
+            DayRepository dayRepository,
+            DatabaseContext dbContext)
         {
             _dayProvider = dayProvider;
             _dayRepository = dayRepository;
+            _dbContext = dbContext;
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetDay([FromRoute] Guid id)
+        public async Task<IActionResult> GetDay([FromRoute] Guid profileId, [FromRoute] Guid id)
         {
             var token = HttpContext.RequestAborted;
 
@@ -30,8 +36,8 @@ namespace back_end.Controllers
 
             return Ok(day);
         }
-
-        [HttpGet("fromProfile/{profileId}")]
+        
+        [HttpGet]
         public async Task<IActionResult> GetDays(
             [FromRoute] Guid profileId, 
             [FromQuery] int page = 1, [FromQuery] int size = 10)
@@ -41,7 +47,7 @@ namespace back_end.Controllers
             await CreateNewDay(profileId);
 
             var days = await _dayProvider
-                .GetDays(page, size)
+                .GetDays(profileId, page, size)
                 .Select(x => new
                 {
                     x.Id,
@@ -55,7 +61,7 @@ namespace back_end.Controllers
         private async Task CreateNewDay(Guid profileId)
         {
             var newDay = await _dayProvider
-                .GetDayByDate(DateTime.UtcNow)
+                .GetDayByDate(profileId, DateTime.UtcNow)
                 .FirstOrDefaultAsync();
 
             if (newDay == null)
@@ -79,6 +85,7 @@ namespace back_end.Controllers
                 };
 
                 _dayRepository.CreateDay(newDay);
+                await _dbContext.SaveChangesAsync();
             }
         }
     }

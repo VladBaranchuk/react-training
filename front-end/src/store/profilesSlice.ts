@@ -14,14 +14,16 @@ export const fetchProfiles = () =>
         }
     }
 
+export const domain = "profiles";
+
 const profilesReducer = (state: Profile[] = [], action: any): Profile[] => {
     if (typeof action !== 'object')
         return state;
 
     switch (action.type) {
-        case "profiles/setProfiles":
+        case `${domain}/setProfiles`:
             return action.payload;
-        case "profiles/addProfile":
+        case `${domain}/addProfile`:
             return [...state, action.payload];
         default:
             return state;

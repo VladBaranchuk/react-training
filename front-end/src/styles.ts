@@ -40,3 +40,15 @@ export const createProfile = {
     justifyContent: "center"
 }
 
+export const daysContainer = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column" as FlexDirection,
+    padding: "30px 60px",
+    border: "1px solid rgb(157, 157, 157)",
+    borderRadius: "5px",
+    backgroundColor: "#ffffff1a",
+    backdropFilter: "blur(15px)"
+};
+

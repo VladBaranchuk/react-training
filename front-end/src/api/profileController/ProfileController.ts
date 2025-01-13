@@ -2,7 +2,7 @@ import { request, header, host } from "../Api";
 import { Profile, CreateProfile } from "./Models";
 
 export const createProfile = (newProfile: CreateProfile) => 
-    request(`${host}/api/profiles`, header("POST", JSON.stringify(newProfile)))
+    request(`${host}/api/profiles`, header("POST", JSON.stringify(newProfile)));
 
 export const getProfile = (profileId: string) => 
     request<Profile>(`${host}/api/profiles/${profileId}`, header("GET"));
